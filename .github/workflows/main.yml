@@ -17,9 +17,14 @@ jobs:
   test_pull_request:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: init env
+        run: ./init_env.sh
+      - name: test
+        run: python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
+      - name: code coverage
+        uses: actions/upload-artifact@v3
         with:
-          node-version: 12
-      - run: ./init_env.sh
-      - run: python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
+          name: code-coverage-report
+          path: htmlcov/
