@@ -22,7 +22,7 @@ jobs:
       - name: init env
         run: ./init_env.sh
       - name: test
-        run: python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
+        run: poetry run python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
       - name: code coverage
         uses: actions/upload-artifact@v3
         with:
