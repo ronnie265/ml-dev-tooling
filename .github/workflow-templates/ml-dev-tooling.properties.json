@@ -1,0 +1,8 @@
+{
+    "name": "ML Dev Tooling Workflow",
+    "description": "Demo starter workflow.",
+    "iconName": "demo-icon",
+    "categories": [
+        "Python"
+    ]
+}
