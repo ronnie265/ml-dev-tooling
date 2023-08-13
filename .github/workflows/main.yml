@@ -21,4 +21,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - run: export PYTHONPATH=$PYTHONPATH:$PWD
+      - run: python3 -m venv venv  # recommend using Python 3.10
+      - run: source venv/bin/activate  # on Windows: venv\Scripts\activate
+      - run: python3 -m pip install --upgrade pip setuptools wheel
+      - run: python3 -m pip install -r requirements.txt
       - run: python3 -m pytest tests/code --verbose --disable-warnings
