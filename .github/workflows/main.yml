@@ -13,7 +13,7 @@ jobs:
       - name: init env
         run: ./init_env.sh
       - name: test
-        run: poetry run pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
+        run: poetry run python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
       - name: coverage upload
         uses: actions/upload-artifact@v3
         with:
@@ -28,4 +28,4 @@ jobs:
       - name: init env
         run: ./init_env.sh
       - name: lint
-        run: poetry run pylint ./madewithml
+        run: poetry run python3 -m pylint ./madewithml
