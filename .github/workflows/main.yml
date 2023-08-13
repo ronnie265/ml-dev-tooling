@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test_and_coverage:
+  test_coverage:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -13,9 +13,19 @@ jobs:
       - name: init env
         run: ./init_env.sh
       - name: test
-        run: poetry run python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
+        run: poetry run pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
       - name: coverage upload
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage-report
           path: htmlcov/
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: init env
+        run: ./init_env.sh
+      - name: lint
+        run: poetry run pylint ./madewithml
