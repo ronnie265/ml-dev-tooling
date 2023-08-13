@@ -22,4 +22,4 @@ jobs:
         with:
           node-version: 12
       - run: ./init_env.sh
-      - run: python3 -m pytest tests/code --verbose --disable-warnings
+      - run: python3 -m pytest tests/code --verbose --disable-warnings --cov madewithml --cov-report html
