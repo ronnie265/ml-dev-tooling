@@ -6,7 +6,7 @@ on:
 
 jobs:
   test_coverage:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -19,9 +19,10 @@ jobs:
         with:
           name: code-coverage-report
           path: htmlcov/
+          retention-days: 30
 
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -29,3 +30,41 @@ jobs:
         run: ./init_env.sh
       - name: lint
         run: poetry run python3 -m pylint ./madewithml
+
+# TODO: when training.Docker is done properly remove "if: false"
+  build-train:
+    if: false
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: init env
+        run: ./init_env.sh
+      - name: copy docker file
+        run: cp docker/training.Dockerfile Dockerfile
+      - name: build publish train
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ml-train:1.0
+
+# TODO: when serving.Docker is done properly remove "if: false"
+  build-serve:
+    if: false
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: init env
+        run: ./init_env.sh
+      - name: copy docker file
+        run: cp docker/serving.Dockerfile Dockerfile
+      - name: build publish serve
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ml-serve:1.0
